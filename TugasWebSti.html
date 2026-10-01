@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>STI – Sekolah Tinggi Informatika</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+  :root {
+    --ink: #0E1530;
+    --ink-2: #172250;
+    --paper: #F3F6FF;
+    --muted: #B9C3E6;
+    --signal: #FFC83D;
+    --signal-ink: #1A1400;
+    --line: rgba(255, 255, 255, 0.16);
+
+    --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --font-body: "DM Sans", "Segoe UI", system-ui, sans-serif;
+
+    --header-h: 76px;
+    --gutter: clamp(16px, 5vw, 56px);
+    --container: 1200px;
+    --radius-pill: 999px;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+  html {
+    height: 100%;
+    scroll-padding-top: env(safe-area-inset-top, 0px);
+  }
+  body {
+    min-height: 100%;
+    margin: 0;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-body);
+    line-height: 1.6;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  :focus-visible {
+    outline: 3px solid var(--signal);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  .site-header {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 10;
+    padding: 0 var(--gutter);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--container);
+    height: var(--header-h);
+    margin: 0 auto;
+    border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+  }
+  
+  .logo img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+  nav ul {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  nav li {
+    position: relative;
+  }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: none;
+    color: var(--paper);
+    font: 500 0.95rem var(--font-body);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .nav-link:hover,
+  .has-sub:focus-within > .nav-link {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .nav-link[aria-current="page"] {
+    color: var(--signal);
+  }
+  .chev {
+    width: 10px;
+    height: 10px;
+    transition: transform 0.2s;
+  }
+  .has-sub.open .chev {
+    transform: rotate(180deg);
+  }
+  .submenu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 240px;
+    padding: 8px;
+    border-radius: 14px;
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+  }
+  .submenu::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+  }
+  .has-sub:hover .submenu,
+  .has-sub.open .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .submenu a {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.93rem;
+    font-weight: 500;
+  }
+  .submenu a span {
+    display: block;
+    color: #55608A;
+    font-size: 0.78rem;
+    font-weight: 400;
+  }
+  .submenu a:hover,
+  .submenu a:focus-visible {
+    background: #E3E9FF;
+  }
+  .menu-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: none;
+    color: var(--paper);
+    cursor: pointer;
+  }
+  .menu-toggle svg {
+    width: 22px;
+    height: 22px;
+  }
+  .hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 130px var(--gutter) 80px;
+    overflow: hidden;
+    background: linear-gradient(160deg, var(--ink) 0%, var(--ink-2) 100%);
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      90deg,
+      rgba(14, 21, 48, 0.92) 0%,
+      rgba(14, 21, 48, 0.7) 45%,
+      rgba(14, 21, 48, 0.15) 100%
+    );
+  }
+  .hero-inner {
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+  }
+  .hero-text {
+    max-width: 640px;
+  }
+  .hero h1 {
+    margin: 0 0 22px;
+    font-family: var(--font-display);
+    font-size: clamp(2.3rem, 6vw, 4.4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .hero p {
+    max-width: 54ch;
+    margin: 0 0 34px;
+    color: var(--muted);
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+  }
+  .btn {
+    display: inline-block;
+    padding: 16px 40px;
+    border-radius: var(--radius-pill);
+    background: var(--signal);
+    color: var(--signal-ink);
+    font: 700 1.05rem var(--font-body);
+    box-shadow: 0 10px 28px rgba(255, 200, 61, 0.3);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(255, 200, 61, 0.42);
+  }
+  @media (max-width: 860px) {
+    .menu-toggle {
+      display: grid;
+      place-items: center;
+    }
+    nav {
+      position: absolute;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      display: none;
+      padding: 0 var(--gutter);
+    }
+    nav.open {
+      display: block;
+    }
+    nav ul {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 2px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--ink-2);
+    }
+    .nav-link {
+      width: 100%;
+      justify-content: space-between;
+      border-radius: 10px;
+    }
+    .submenu {
+      position: static;
+      display: none;
+      margin: 4px 0 6px;
+      box-shadow: none;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+    .submenu::before {
+      display: none;
+    }
+    .has-sub:hover .submenu {
+      display: none;
+    }
+    .has-sub.open .submenu {
+      display: block;
+    }
+    .hero::after {
+      background: linear-gradient(180deg, rgba(14, 21, 48, 0.85), rgba(14, 21, 48, 0.6));
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="bar">
+    <a class="logo" href="#"><img src="logo.jpeg" alt="Logo Sistem dan Teknologi Informasi">STI</a>
+      
+        <rect width="48" height="48" rx="12" fill="#FFC83D"/>
+        <path d="M13 17h22M13 24h22M13 31h14" stroke="#0E1530" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="35" cy="31" r="3" fill="#0E1530"/>
+      </svg>
+      <span>STI<small>Sekolah Tinggi Informatika</small></span>
+    </a>
+    <button class="menu-toggle" aria-label="Buka menu" aria-expanded="false" aria-controls="nav">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav id="nav" aria-label="Menu utama">
+      <ul>
+        <li><a class="nav-link" href="#" aria-current="page">Beranda</a></li>
+        <li class="has-sub">
+          <button class="nav-link" aria-haspopup="true" aria-expanded="false">
+            Program Studi
+            <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 3.5 5 7l3.5-3.5"/></svg>
+          </button>
+          <div class="submenu">
+            <a href="#">Teknik Informatika <span>S1 · 8 semester</span></a>
+            <a href="#">Sistem Informasi <span>S1 · 8 semester</span></a>
+            <a href="#">Manajemen Informatika <span>D3 · 6 semester</span></a>
+          </div>
+        </li>
+        <li><a class="nav-link" href="#">Fasilitas</a></li>
+        <li><a class="nav-link" href="#">Berita</a></li>
+        <li><a class="nav-link" href="#">Kontak</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <!-- Gambar latar: ilustrasi gedung kampus & jaringan data -->
+    <svg class="hero-bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0E1530"/><stop offset=".7" stop-color="#26357A"/><stop offset="1" stop-color="#3D4FA8"/>
+        </linearGradient>
+        <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+          <path d="M48 0H0V48" fill="none" stroke="#fff" stroke-opacity=".06"/>
+        </pattern>
+      </defs>
+      <rect width="1440" height="900" fill="url(#sky)"/>
+      <rect width="1440" height="900" fill="url(#grid)"/>
+      <circle cx="1130" cy="230" r="120" fill="#FFC83D" opacity=".18"/>
+      <circle cx="1130" cy="230" r="64" fill="#FFC83D" opacity=".85"/>
+      <!-- jaringan data -->
+      <g stroke="#7F93E8" stroke-opacity=".55" stroke-width="1.5" fill="none">
+        <path d="M760 160 L900 260 L1040 190 L1210 330 L1340 250"/>
+        <path d="M900 260 L980 400 L1210 330"/>
+        <path d="M1040 190 L980 400"/>
+      </g>
+      <g fill="#FFC83D">
+        <circle cx="760" cy="160" r="5"/><circle cx="900" cy="260" r="6"/><circle cx="1040" cy="190" r="5"/>
+        <circle cx="1210" cy="330" r="6"/><circle cx="1340" cy="250" r="5"/><circle cx="980" cy="400" r="5"/>
+      </g>
+      <!-- gedung -->
+      <g fill="#0A1030">
+        <rect x="700" y="560" width="120" height="340"/>
+        <rect x="830" y="470" width="170" height="430"/>
+        <rect x="1010" y="520" width="110" height="380"/>
+        <rect x="1130" y="430" width="200" height="470"/>
+        <rect x="1340" y="590" width="100" height="310"/>
+        <rect x="560" y="660" width="130" height="240"/>
+      </g>
+      <g fill="#FFC83D" opacity=".8">
+        <rect x="850" y="500" width="16" height="22"/><rect x="890" y="500" width="16" height="22"/><rect x="930" y="540" width="16" height="22"/>
+        <rect x="850" y="580" width="16" height="22"/><rect x="930" y="620" width="16" height="22"/><rect x="890" y="660" width="16" height="22"/>
+        <rect x="1160" y="470" width="16" height="22"/><rect x="1200" y="510" width="16" height="22"/><rect x="1240" y="470" width="16" height="22"/>
+        <rect x="1160" y="560" width="16" height="22"/><rect x="1280" y="560" width="16" height="22"/><rect x="1200" y="650" width="16" height="22"/>
+        <rect x="725" y="600" width="14" height="20"/><rect x="760" y="640" width="14" height="20"/><rect x="1035" y="560" width="14" height="20"/>
+        <rect x="1070" y="620" width="14" height="20"/>
+      </g>
+      <rect y="860" width="1440" height="40" fill="#070B20"/>
+    </svg>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>Bangun karier digitalmu bersama STI</h1>
+        <p>Sekolah Tinggi Informatika dengan kurikulum berbasis industri, dosen praktisi, dan laboratorium modern. Mulai dari pemrograman sampai keamanan siber, kamu belajar dengan proyek nyata sejak semester pertama.</p>
+        <a href="#daftar" class="btn">Daftar</a>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+  (function () {
+    var toggle = document.querySelector('.menu-toggle');
+    var nav = document.getElementById('nav');
+    var sub = document.querySelector('.has-sub');
+    var subBtn = sub.querySelector('button');
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+    subBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = sub.classList.toggle('open');
+      subBtn.setAttribute('aria-expanded', open);
+    });
+    document.addEventListener('click', function (e) {
+      if (!sub.contains(e.target)) { sub.classList.remove('open'); subBtn.setAttribute('aria-expanded', 'false'); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { sub.classList.remove('open'); subBtn.setAttribute('aria-expanded', 'false'); subBtn.focus(); }
+    });
+  })();
+</script>
+</body>
+</html>
